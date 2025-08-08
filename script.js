@@ -458,3 +458,139 @@ function handleResize() {
 // Ejecutar al cargar y al redimensionar
 window.addEventListener('load', handleResize);
 window.addEventListener('resize', handleResize);
+
+
+// Carga la API de YouTube
+function loadYouTubeAPI() {
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
+
+// Variables globales
+let youtubePlayer;
+let currentSong = null;
+let progressInterval;
+
+// Lista de canciones con IDs de YouTube
+const songs = {
+  'CHIHIRO': {
+    id: 'BY_XwvKogC8',
+    title: 'Billie Eilish - CHIHIRO',
+    duration: '3:45'
+  },
+  'Bacalar': {
+    id: 'Rux-Q_nPrp0',
+    title: 'Siddhartha - Bacalar',
+    duration: '4:12'
+  }
+};
+
+// Función cuando la API de YouTube está lista
+function onYouTubeIframeAPIReady() {
+  youtubePlayer = new YT.Player('youtube-player', {
+    height: '0',
+    width: '0',
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  });
+}
+
+function onPlayerReady(event) {
+  console.log('Reproductor de YouTube listo');
+}
+
+function onPlayerStateChange(event) {
+  const player = document.querySelector('.music-player');
+  const playBtn = document.querySelector('.play-btn');
+  
+  // Actualizar controles según el estado
+  if (event.data === YT.PlayerState.PLAYING) {
+    player.classList.remove('hidden');
+    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+    startProgressTimer();
+  } else if (event.data === YT.PlayerState.PAUSED) {
+    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+    clearInterval(progressInterval);
+  } else if (event.data === YT.PlayerState.ENDED) {
+    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+    clearInterval(progressInterval);
+    document.querySelector('.progress-bar').style.width = '0%';
+    document.querySelectorAll('.song .play-icon').forEach(icon => {
+      icon.textContent = '▶️';
+    });
+  }
+}
+
+function startProgressTimer() {
+  clearInterval(progressInterval);
+  progressInterval = setInterval(updateProgressBar, 1000);
+}
+
+function updateProgressBar() {
+  if (youtubePlayer && youtubePlayer.getCurrentTime) {
+    const currentTime = youtubePlayer.getCurrentTime();
+    const duration = youtubePlayer.getDuration();
+    const progress = (currentTime / duration) * 100;
+    document.querySelector('.progress-bar').style.width = progress + '%';
+  }
+}
+
+// Control de canciones
+window.playSong = function(songName) {
+  if (!songs[songName]) return;
+  
+  currentSong = songName;
+  const songInfo = document.querySelector('.song-info');
+  songInfo.textContent = songs[songName].title;
+  
+  // Cargar y reproducir la canción de YouTube
+  youtubePlayer.loadVideoById(songs[songName].id);
+  
+  // Actualizar iconos de reproducción
+  document.querySelectorAll('.song').forEach(songEl => {
+    const icon = songEl.querySelector('.play-icon');
+    if (songEl.getAttribute('onclick').includes(songName)) {
+      icon.textContent = '⏸️';
+    } else {
+      icon.textContent = '▶️';
+    }
+  });
+};
+
+window.togglePlay = function() {
+  if (youtubePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+    youtubePlayer.pauseVideo();
+  } else {
+    youtubePlayer.playVideo();
+  }
+};
+
+window.skipBackward = function() {
+  const currentTime = youtubePlayer.getCurrentTime();
+  youtubePlayer.seekTo(Math.max(currentTime - 10, 0));
+};
+
+window.skipForward = function() {
+  const currentTime = youtubePlayer.getCurrentTime();
+  youtubePlayer.seekTo(currentTime + 10);
+};
+
+// Click en la barra de progreso
+document.querySelector('.progress-container').addEventListener('click', function(e) {
+  if (!currentSong) return;
+  
+  const rect = this.getBoundingClientRect();
+  const pos = (e.clientX - rect.left) / rect.width;
+  const duration = youtubePlayer.getDuration();
+  youtubePlayer.seekTo(duration * pos);
+});
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', function() {
+  loadYouTubeAPI();
+  // ... (el resto de tu código de inicialización)
+});

@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   musicControl.addEventListener('click', function() {
     if (audio.paused) {
-      audio.play();
+      audio.play().catch(e => console.log("La reproducción automática fue prevenida:", e));
       musicControl.innerHTML = '<i class="fas fa-music"></i> <span>Música ON</span>';
     } else {
       audio.pause();
@@ -165,12 +165,16 @@ function initTravelCarousels() {
     Object.keys(travelCarousels).forEach(c => {
       clearInterval(travelCarousels[c].interval);
       document.getElementById(`${c}-travel`).classList.remove('active');
+      document.getElementById(`${c}-travel`).setAttribute('hidden', 'true');
       document.querySelector(`button[onclick="showTravel('${c}')"]`).classList.remove('active');
+      document.querySelector(`button[onclick="showTravel('${c}')"]`).setAttribute('aria-selected', 'false');
     });
     
     // Activar el seleccionado
     document.getElementById(`${city}-travel`).classList.add('active');
+    document.getElementById(`${city}-travel`).removeAttribute('hidden');
     document.querySelector(`button[onclick="showTravel('${city}')"]`).classList.add('active');
+    document.querySelector(`button[onclick="showTravel('${city}')"]`).setAttribute('aria-selected', 'true');
     
     // Reiniciar índice y puntos
     travelCarousels[city].index = 0;
@@ -212,13 +216,14 @@ function initTravelCarousels() {
     if (!dotsContainer.hasChildNodes()) {
       dotsContainer.innerHTML = '';
       items.forEach((_, i) => {
-        const dot = document.createElement('div');
+        const dot = document.createElement('button');
         dot.classList.add('travel-dot');
         if (i === travelCarousels[city].index) dot.classList.add('active');
         dot.addEventListener('click', () => {
           travelCarousels[city].index = i;
           moveTravelMedia(0, city);
         });
+        dot.setAttribute('aria-label', `Mostrar imagen ${i + 1}`);
         dotsContainer.appendChild(dot);
       });
     } else {
@@ -277,13 +282,13 @@ function initMusicPlayer() {
       songInfo.textContent = songs[songName].title;
     }
     
-    audio.play();
+    audio.play().catch(e => console.log("La reproducción automática fue prevenida:", e));
     playBtn.innerHTML = '<i class="fas fa-pause"></i>';
   };
   
   window.togglePlay = function() {
     if (audio.paused) {
-      audio.play();
+      audio.play().catch(e => console.log("La reproducción automática fue prevenida:", e));
       playBtn.innerHTML = '<i class="fas fa-pause"></i>';
     } else {
       audio.pause();
@@ -347,41 +352,43 @@ function initConfetti() {
   };
 }
 
-// Funciones para el ramo de flores - MEJORADO
-function showPhotoModal(src, caption) {
+// Funciones para el ramo de flores
+window.showPhotoModal = function(src, caption) {
   const modal = document.getElementById('photoModal');
   const modalImg = document.getElementById('modalImage');
   const modalVideo = document.getElementById('modalVideo');
   const modalCaption = document.getElementById('modalCaption');
   
   modal.style.display = "block";
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = "hidden";
+  
   modalImg.src = src;
   modalImg.style.display = "block";
   modalVideo.style.display = "none";
   modalVideo.pause();
   modalCaption.textContent = caption;
   
-  // Deshabilitar scroll del body
-  document.body.style.overflow = "hidden";
-  
   // Efecto de confeti al abrir la foto
   triggerConfetti();
-}
+};
 
-function showVideoModal(src, caption) {
+window.showVideoModal = function(src, caption) {
   const modal = document.getElementById('photoModal');
   const modalImg = document.getElementById('modalImage');
   const modalVideo = document.getElementById('modalVideo');
   const modalCaption = document.getElementById('modalCaption');
   
   modal.style.display = "block";
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = "hidden";
+  
   modalVideo.src = src;
   modalVideo.style.display = "block";
   modalImg.style.display = "none";
   modalCaption.textContent = caption;
-  
-  // Deshabilitar scroll del body
-  document.body.style.overflow = "hidden";
   
   // Intentar reproducir el video
   setTimeout(() => {
@@ -390,18 +397,18 @@ function showVideoModal(src, caption) {
   
   // Efecto de confeti al abrir el video
   triggerConfetti();
-}
+};
 
-function closeModal() {
+window.closeModal = function() {
   const modal = document.getElementById('photoModal');
   const modalVideo = document.getElementById('modalVideo');
   
   modal.style.display = "none";
-  modalVideo.pause();
-  
-  // Habilitar scroll del body
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.removeAttribute('aria-hidden');
   document.body.style.overflow = "auto";
-}
+  modalVideo.pause();
+};
 
 // Cerrar modal al hacer clic fuera del contenido
 window.onclick = function(event) {
@@ -409,7 +416,7 @@ window.onclick = function(event) {
   if (event.target == modal) {
     closeModal();
   }
-}
+};
 
 // Cerrar modal con tecla ESC
 document.addEventListener('keydown', function(event) {
@@ -417,3 +424,37 @@ document.addEventListener('keydown', function(event) {
     closeModal();
   }
 });
+// Añade esto al final de tu script.js
+
+// Manejar redimensionamiento para el ramo de flores
+function handleResize() {
+  const bouquet = document.querySelector('.flower-bouquet');
+  const viewportWidth = window.innerWidth;
+  
+  if (viewportWidth < 480) {
+    // Ajustar distancias para móviles pequeños
+    document.querySelectorAll('.flower-secondary').forEach((flower, index) => {
+      const angles = [0, 72, 144, 216, 288];
+      flower.style.setProperty('--distance', '110px');
+      flower.style.setProperty('--angle', `${angles[index]}deg`);
+    });
+  } else if (viewportWidth < 768) {
+    // Ajustar para tablets
+    document.querySelectorAll('.flower-secondary').forEach((flower, index) => {
+      const angles = [0, 72, 144, 216, 288];
+      flower.style.setProperty('--distance', '120px');
+      flower.style.setProperty('--angle', `${angles[index]}deg`);
+    });
+  } else {
+    // Tamaño de escritorio
+    document.querySelectorAll('.flower-secondary').forEach((flower, index) => {
+      const angles = [0, 72, 144, 216, 288];
+      flower.style.setProperty('--distance', '140px');
+      flower.style.setProperty('--angle', `${angles[index]}deg`);
+    });
+  }
+}
+
+// Ejecutar al cargar y al redimensionar
+window.addEventListener('load', handleResize);
+window.addEventListener('resize', handleResize);

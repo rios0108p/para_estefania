@@ -1,4 +1,3 @@
-/* Fuentes y colores base */
 :root {
   --color-primary: #d23669;
   --color-secondary: #ff8ba7;
@@ -9,7 +8,6 @@
   --color-dark: #3a243b;
 }
 
-/* Estilos generales */
 body {
   font-family: 'Montserrat', sans-serif;
   background: linear-gradient(135deg, var(--color-bg), #fff0f5);
@@ -21,7 +19,6 @@ body {
   min-height: 100vh;
 }
 
-/* Animaciones clave */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-20px); }
@@ -56,7 +53,28 @@ body {
   100% { transform: scale(1); }
 }
 
-/* Header */
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes float-flower {
+  0%, 100% { 
+    transform: 
+      rotate(var(--angle)) 
+      translateX(var(--distance)) 
+      rotate(calc(-1 * var(--angle))) 
+      translateY(0);
+  }
+  50% { 
+    transform: 
+      rotate(var(--angle)) 
+      translateX(var(--distance)) 
+      rotate(calc(-1 * var(--angle))) 
+      translateY(-15px);
+  }
+}
+
 header {
   background: linear-gradient(to right, var(--color-light), #f8c8dc);
   text-align: center;
@@ -103,6 +121,7 @@ header h1 {
   gap: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
+  border: none;
 }
 
 .music-control:hover {
@@ -114,7 +133,6 @@ header h1 {
   color: var(--color-primary);
 }
 
-/* Secciones principales */
 section {
   padding: 40px 20px;
   max-width: 900px;
@@ -159,7 +177,6 @@ h2 {
   animation: pulse 2s infinite;
 }
 
-/* Polaroid */
 .polaroid {
   max-width: 400px;
   margin: 30px auto;
@@ -176,10 +193,6 @@ h2 {
 
 .polaroid:hover {
   transform: rotate(1deg) scale(1.05);
-}
-
-.polaroid.shake {
-  animation: shake 0.5s ease;
 }
 
 .polaroid img {
@@ -234,21 +247,6 @@ h2 {
   animation: shine 2s infinite;
 }
 
-.love-meter span {
-  display: block;
-  text-align: center;
-  margin-top: 5px;
-  font-weight: bold;
-  color: var(--color-primary);
-  font-size: 0.9em;
-}
-
-@keyframes shine {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-/* Sección de viajes */
 .travels {
   position: relative;
   overflow: hidden;
@@ -287,10 +285,6 @@ h2 {
   background: var(--color-primary);
   color: white;
   box-shadow: 0 4px 8px rgba(210, 54, 105, 0.3);
-}
-
-.tab-button i {
-  font-size: 1.1em;
 }
 
 .travel-carousel {
@@ -359,7 +353,6 @@ h2 {
   font-family: 'Dancing Script', cursive;
 }
 
-/* Controles del carrusel */
 .travel-prev, .travel-next {
   position: absolute;
   top: 50%;
@@ -400,7 +393,6 @@ h2 {
   color: var(--color-dark);
 }
 
-/* Puntos indicadores */
 .travel-dots {
   position: absolute;
   bottom: 20px;
@@ -426,7 +418,6 @@ h2 {
   transform: scale(1.2);
 }
 
-/* Mensaje especial */
 .message-box {
   text-align: center;
 }
@@ -471,6 +462,9 @@ h2 {
   position: relative;
   cursor: pointer;
   transition: all 0.3s ease;
+  background: transparent;
+  border: none;
+  padding: 0;
 }
 
 .envelope:hover {
@@ -528,7 +522,6 @@ h2 {
   opacity: 1;
 }
 
-/* Playlist */
 .playlist {
   text-align: center;
 }
@@ -629,7 +622,6 @@ h2 {
   transition: width 0.1s linear;
 }
 
-/* Elementos flotantes */
 .hearts-container, .floating-flowers, .floating-hearts {
   position: fixed;
   top: 0;
@@ -653,6 +645,7 @@ h2 {
   opacity: 0.7;
   z-index: -1;
   font-size: 1.5em;
+  will-change: transform, opacity;
 }
 
 .floating-hearts div {
@@ -662,9 +655,9 @@ h2 {
   z-index: -1;
   font-size: 1.2em;
   color: var(--color-primary);
+  will-change: transform, opacity;
 }
 
-/* Footer */
 footer {
   background: linear-gradient(to right, var(--color-light), #f8c8dc);
   margin-top: 50px;
@@ -695,7 +688,6 @@ footer {
   filter: drop-shadow(0 0 5px rgba(255,107,139,0.5));
 }
 
-/* Botón flotante */
 .floating-btn {
   position: fixed;
   bottom: 30px;
@@ -721,92 +713,7 @@ footer {
   box-shadow: 0 6px 20px rgba(210, 54, 105, 0.6);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .travel-media-item img, .travel-media-item video {
-    height: 350px;
-  }
-  
-  .travel-tabs {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .tab-button {
-    width: 80%;
-  }
-  
-  .travel-prev, .travel-next {
-    opacity: 1;
-    width: 40px;
-    height: 40px;
-    font-size: 1.2em;
-  }
-  
-  .polaroid {
-    max-width: 300px;
-  }
-  
-  .envelope {
-    width: 150px;
-    height: 90px;
-  }
-  
-  .envelope-flap {
-    border-left: 75px solid transparent;
-    border-right: 75px solid transparent;
-    border-top: 50px solid #f8c8dc;
-  }
-  
-  .envelope-body {
-    width: 150px;
-    height: 90px;
-    top: 25px;
-  }
-  
-  .floating-btn {
-    width: 50px;
-    height: 50px;
-    font-size: 1.2em;
-    bottom: 20px;
-    right: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .travel-media-item img, .travel-media-item video {
-    height: 250px;
-  }
-  
-  .travel-title {
-    font-size: 1.5rem;
-  }
-  
-  section {
-    padding: 30px 15px;
-    margin: 20px auto;
-  }
-  
-  .tab-button {
-    padding: 10px 15px;
-    font-size: 0.9rem;
-  }
-  
-  .letter-content {
-    padding: 20px;
-    min-height: 150px;
-  }
-  
-  .quote {
-    font-size: 1.2em;
-  }
-  
-  .song {
-    padding: 10px 15px;
-  }
-}
-
-/* Ramo de flores con fotos - MEJORADO */
+/* Estilos corregidos para el ramo de flores */
 .flower-bouquet {
   position: relative;
   width: 320px;
@@ -816,20 +723,14 @@ footer {
   justify-content: center;
   align-items: center;
   perspective: 1000px;
-}
-
-.flower-main, .flower-secondary {
-  position: absolute;
-  cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  z-index: 2;
-  transform-style: preserve-3d;
+  overflow: visible;
 }
 
 .flower-main {
   width: 140px;
   height: 140px;
-  z-index: 3;
+  z-index: 10;
+  position: relative;
   animation: float-flower 4s ease-in-out infinite;
 }
 
@@ -841,22 +742,25 @@ footer {
   border: 4px solid white;
   box-shadow: 0 8px 25px rgba(0,0,0,0.25);
   transition: all 0.5s ease;
-}
-
-.flower-main:hover img {
-  transform: scale(1.05);
-  box-shadow: 0 10px 30px rgba(210, 54, 105, 0.5);
+  position: relative;
+  z-index: 3;
 }
 
 .flower-secondary {
+  position: absolute;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 5;
+  transform-style: preserve-3d;
+  will-change: transform;
   transform: 
     rotate(var(--angle)) 
     translateX(var(--distance)) 
     rotate(calc(-1 * var(--angle)));
+  animation: float-flower 4s ease-in-out infinite;
 }
 
-.flower-secondary img, 
-.flower-secondary video {
+.flower-secondary img {
   width: 90px;
   height: 90px;
   object-fit: cover;
@@ -864,21 +768,11 @@ footer {
   border: 3px solid white;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   transition: all 0.5s ease;
-  cursor: pointer;
+  position: relative;
+  z-index: 3;
+  display: block;
 }
 
-.flower-secondary video {
-  background: #000;
-}
-
-.flower-secondary:hover img,
-.flower-secondary:hover video {
-  transform: scale(1.15) rotate(5deg);
-  box-shadow: 0 8px 25px rgba(210, 54, 105, 0.5);
-  z-index: 4;
-}
-
-/* Pétalos decorativos */
 .petals {
   position: absolute;
   top: -20px;
@@ -887,7 +781,7 @@ footer {
   bottom: -20px;
   background: radial-gradient(circle, #ffdde1 0%, #ffb6c1 70%, transparent 71%);
   border-radius: 50%;
-  z-index: 1;
+  z-index: 2;
   animation: float 3s ease-in-out infinite;
   filter: drop-shadow(0 0 10px rgba(255,182,193,0.5));
 }
@@ -898,10 +792,9 @@ footer {
   right: -15px;
   bottom: -15px;
   background: radial-gradient(circle, #ffecf1 0%, #ffd6e0 70%, transparent 71%);
-  z-index: 0;
+  z-index: 1;
 }
 
-/* Tallo y hojas */
 .stem {
   position: absolute;
   bottom: -100px;
@@ -943,7 +836,6 @@ footer {
   transform: rotate(30deg) scaleX(-1);
 }
 
-/* Modal para fotos/videos - MEJORADO */
 .modal {
   display: none;
   position: fixed;
@@ -1008,6 +900,8 @@ footer {
   transition: all 0.3s ease;
   text-shadow: 0 0 5px rgba(0,0,0,0.5);
   z-index: 1001;
+  background: none;
+  border: none;
 }
 
 .close:hover {
@@ -1015,29 +909,13 @@ footer {
   transform: rotate(90deg) scale(1.2);
 }
 
-/* Animación para las flores */
-@keyframes float-flower {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(2deg); }
-}
+/* Animaciones específicas para cada flor secundaria */
+.flower-secondary:nth-child(2) { animation-delay: 0.5s; }
+.flower-secondary:nth-child(3) { animation-delay: 0.8s; }
+.flower-secondary:nth-child(4) { animation-delay: 0.3s; }
+.flower-secondary:nth-child(5) { animation-delay: 0.7s; }
+.flower-secondary:nth-child(6) { animation-delay: 0.9s; }
 
-.flower-secondary:nth-child(2) {
-  animation: float-flower 3.5s ease-in-out infinite 0.5s;
-}
-.flower-secondary:nth-child(3) {
-  animation: float-flower 4.2s ease-in-out infinite 0.8s;
-}
-.flower-secondary:nth-child(4) {
-  animation: float-flower 3.8s ease-in-out infinite 0.3s;
-}
-.flower-secondary:nth-child(5) {
-  animation: float-flower 4.5s ease-in-out infinite 0.7s;
-}
-.flower-secondary:nth-child(6) {
-  animation: float-flower 3.7s ease-in-out infinite 0.9s;
-}
-
-/* Efecto de brillo al pasar el mouse */
 .flower-main::after, .flower-secondary::after {
   content: '';
   position: absolute;
@@ -1056,8 +934,56 @@ footer {
   opacity: 0.5;
 }
 
-/* Responsivo para el ramo de flores */
 @media (max-width: 768px) {
+  .travel-media-item img, .travel-media-item video {
+    height: 350px;
+  }
+  
+  .travel-tabs {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tab-button {
+    width: 80%;
+  }
+  
+  .travel-prev, .travel-next {
+    opacity: 1;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2em;
+  }
+  
+  .polaroid {
+    max-width: 300px;
+  }
+  
+  .envelope {
+    width: 150px;
+    height: 90px;
+  }
+  
+  .envelope-flap {
+    border-left: 75px solid transparent;
+    border-right: 75px solid transparent;
+    border-top: 50px solid #f8c8dc;
+  }
+  
+  .envelope-body {
+    width: 150px;
+    height: 90px;
+    top: 25px;
+  }
+  
+  .floating-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2em;
+    bottom: 20px;
+    right: 20px;
+  }
+
   .flower-bouquet {
     width: 280px;
     height: 280px;
@@ -1089,6 +1015,37 @@ footer {
 }
 
 @media (max-width: 480px) {
+  .travel-media-item img, .travel-media-item video {
+    height: 250px;
+  }
+  
+  .travel-title {
+    font-size: 1.5rem;
+  }
+  
+  section {
+    padding: 30px 15px;
+    margin: 20px auto;
+  }
+  
+  .tab-button {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .letter-content {
+    padding: 20px;
+    min-height: 150px;
+  }
+  
+  .quote {
+    font-size: 1.2em;
+  }
+  
+  .song {
+    padding: 10px 15px;
+  }
+
   .flower-bouquet {
     width: 240px;
     height: 240px;
@@ -1119,5 +1076,190 @@ footer {
     top: 20px;
     right: 25px;
     font-size: 35px;
+  }
+}
+/* Añade estas reglas al final de tu archivo CSS */
+
+/* Responsividad para el ramo de flores */
+@media (max-width: 768px) {
+  .flower-bouquet {
+    width: 280px;
+    height: 280px;
+    margin-bottom: 80px;
+  }
+  
+  .flower-main {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .flower-secondary img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .flower-secondary {
+    transform: 
+      rotate(var(--angle)) 
+      translateX(calc(var(--distance) * 0.9)) 
+      rotate(calc(-1 * var(--angle)));
+  }
+  
+  .stem {
+    height: 130px;
+    bottom: -90px;
+  }
+}
+
+@media (max-width: 480px) {
+  .flower-bouquet {
+    width: 240px;
+    height: 240px;
+    margin-bottom: 70px;
+  }
+  
+  .flower-main {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .flower-secondary img {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .stem {
+    height: 110px;
+    bottom: -80px;
+  }
+}
+
+/* Responsividad general mejorada */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2.2rem;
+  }
+  
+  section {
+    padding: 30px 15px;
+    margin: 20px 15px;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+  }
+  
+  .polaroid {
+    max-width: 300px;
+  }
+  
+  .travel-media-item img, 
+  .travel-media-item video {
+    height: 350px;
+  }
+  
+  .travel-tabs {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tab-button {
+    width: 80%;
+    margin-bottom: 10px;
+  }
+  
+  .letter-content {
+    padding: 20px;
+    min-height: 150px;
+  }
+  
+  .envelope {
+    width: 150px;
+    height: 90px;
+  }
+  
+  .envelope-flap {
+    border-left: 75px solid transparent;
+    border-right: 75px solid transparent;
+    border-top: 50px solid #f8c8dc;
+  }
+  
+  .envelope-body {
+    width: 150px;
+    height: 90px;
+    top: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  
+  section {
+    padding: 25px 10px;
+    margin: 15px 10px;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  .travel-media-item img, 
+  .travel-media-item video {
+    height: 250px;
+  }
+  
+  .travel-title {
+    font-size: 1.3rem;
+  }
+  
+  .tab-button {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .quote {
+    font-size: 1.2rem;
+  }
+  
+  .song {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .floating-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  #modalCaption {
+    font-size: 1.2rem;
+    padding: 10px;
+  }
+  
+  .close {
+    top: 15px;
+    right: 15px;
+    font-size: 30px;
+  }
+}
+
+/* Animaciones responsivas */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

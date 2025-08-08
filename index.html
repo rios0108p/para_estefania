@@ -2,42 +2,45 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Página especial para Estefanía con nuestros recuerdos">
   <title>Para Estefanía 💖</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;600&display=swap">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="hearts-container"></div>
-  <div class="floating-flowers"></div>
-  <div class="floating-hearts"></div>
+  <div class="hearts-container" aria-hidden="true"></div>
+  <div class="floating-flowers" aria-hidden="true"></div>
+  <div class="floating-hearts" aria-hidden="true"></div>
   
   <header class="animate__animated animate__fadeIn">
     <h1>Para Estefanía ✨</h1>
     <p class="subtitle">Un espacio creado con todo mi cariño</p>
-    <div class="flower-animation">🌸</div>
-    <div class="music-control">
+    <div class="flower-animation" aria-hidden="true">🌸</div>
+    <button class="music-control" aria-label="Control de música">
       <i class="fas fa-music"></i>
       <span>Música</span>
-    </div>
+    </button>
   </header>
 
   <main>
     <!-- Sección Intro -->
     <section class="intro animate__animated animate__fadeInUp">
-      <h2><span class="decorative">🌸</span> Para la persona más especial</h2>
+      <h2><span class="decorative" aria-hidden="true">🌸</span> Para la persona más especial</h2>
       <div class="typing-text">
         <p>Hay personas que iluminan nuestra vida con su simple existencia... y tú eres una de ellas.</p>
         <p class="typing-line">Quiero que sepas lo mucho que vales y lo especial que eres.</p>
         <p class="typing-line">Nunca cambies esa esencia que te hace única, esa luz que compartes con el mundo.</p>
         <p class="typing-line">Eres increíble tal como eres, y quiero que sigas siendo exactamente tú.</p>
       </div>
-      <div class="polaroid" onclick="shakePolaroid()">
-        <img src="assets/images/foto7.jpg" alt="Te imagino así de feliz">
-        <p>Te imagino así de feliz siempre</p>
-      </div>
+      <figure class="polaroid" onclick="shakePolaroid()" tabindex="0" role="button" aria-label="Foto especial - Haz clic para animar">
+        <img src="assets/images/foto7.jpg" alt="Estefanía feliz - Te imagino así de feliz siempre">
+        <figcaption>Te imagino así de feliz siempre</figcaption>
+      </figure>
       <div class="love-meter">
         <div class="meter-fill" style="width: 100%"></div>
         <span>100% Amor</span>
@@ -46,122 +49,127 @@
 
     <!-- Sección Viajes Mejorada -->
     <section class="travels animate__animated animate__fadeInUp">
-      <h2><span class="decorative">✈️</span> Nuestros Viajes</h2>
-      <div class="travel-tabs">
-        <button class="tab-button active" onclick="showTravel('cozumel')">
+      <h2><span class="decorative" aria-hidden="true">✈️</span> Nuestros Viajes</h2>
+      <div class="travel-tabs" role="tablist">
+        <button class="tab-button active" onclick="showTravel('cozumel')" role="tab" aria-selected="true" aria-controls="cozumel-travel">
           <i class="fas fa-umbrella-beach"></i> Cozumel
         </button>
-        <button class="tab-button" onclick="showTravel('cdmx')">
+        <button class="tab-button" onclick="showTravel('cdmx')" role="tab" aria-selected="false" aria-controls="cdmx-travel">
           <i class="fas fa-city"></i> CDMX
         </button>
       </div>
       
       <!-- Carrusel Cozumel -->
-      <div id="cozumel-travel" class="travel-carousel active">
-        <h3 class="travel-title animate__animated animate__pulse animate__infinite animate__slower">Cozumel</h3>
+      <div id="cozumel-travel" class="travel-carousel active" role="tabpanel">
+        <h3 class="travel-title">Cozumel</h3>
         <div class="travel-media-container">
           <div class="travel-media-wrapper">
             <div class="travel-media-item active">
-              <img src="assets/images/foto3.jpg" alt="Cozumel 2025">
+              <img src="assets/images/foto3.jpg" alt="Nuestro primer viaje juntos en Cozumel 2025" loading="lazy">
               <div class="travel-caption">Nuestro primer viaje juntos en el 2025</div>
             </div>
             <div class="travel-media-item">
-              <img src="assets/images/foto2.jpeg" alt="Cozumel playa">
+              <img src="assets/images/foto2.jpg" alt="Disfrutando del mar Caribe en Cozumel" loading="lazy">
               <div class="travel-caption">Disfrutando del mar Caribe</div>
             </div>
             <div class="travel-media-item">
-              <img src="assets/images/foto1.jpg" alt="Cozumel atardecer">
+              <img src="assets/images/foto1.jpg" alt="Atardecer en Cozumel" loading="lazy">
               <div class="travel-caption">Atardeceres que nunca olvidaré</div>
             </div>
           </div>
-          <button class="travel-prev" onclick="moveTravelMedia(-1, 'cozumel')"><i class="fas fa-chevron-left"></i></button>
-          <button class="travel-next" onclick="moveTravelMedia(1, 'cozumel')"><i class="fas fa-chevron-right"></i></button>
-          <div class="travel-dots"></div>
+          <button class="travel-prev" onclick="moveTravelMedia(-1, 'cozumel')" aria-label="Imagen anterior">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="travel-next" onclick="moveTravelMedia(1, 'cozumel')" aria-label="Imagen siguiente">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <div class="travel-dots" role="tablist"></div>
         </div>
       </div>
       
       <!-- Carrusel CDMX -->
-      <div id="cdmx-travel" class="travel-carousel">
-        <h3 class="travel-title animate__animated animate__pulse animate__infinite animate__slower">CDMX</h3>
+      <div id="cdmx-travel" class="travel-carousel" role="tabpanel" hidden>
+        <h3 class="travel-title">CDMX</h3>
         <div class="travel-media-container">
           <div class="travel-media-wrapper">
             <div class="travel-media-item active">
-              <img src="assets/images/foto4.jpg" alt="CDMX">
+              <img src="assets/images/foto4.jpg" alt="Estefanía en CDMX" loading="lazy">
               <div class="travel-caption">De todas las obras de arte que hay en México, tú eres la más hermosa</div>
             </div>
             <div class="travel-media-item">
-              <img src="assets/images/foto6.jpg" alt="CDMX centro">
+              <img src="assets/images/foto6.jpg" alt="Paseando por el centro histórico de CDMX" loading="lazy">
               <div class="travel-caption">Paseando por el centro histórico</div>
             </div>
             <div class="travel-media-item">
-              <img src="assets/images/foto5.jpg" alt="CDMX atardecer">
-              <div class="travel-caption"></div>
+              <img src="assets/images/foto5.jpg" alt="Atardecer en CDMX" loading="lazy">
+              <div class="travel-caption">Atardecer contigo</div>
             </div>
             <div class="travel-media-item">
-              <img src="assets/images/foto11.jpeg" alt="CDMX museo">
+              <img src="assets/images/foto11.jpeg" alt="Visitando un museo en CDMX" loading="lazy">
               <div class="travel-caption">Cada lugar contigo se vuelve especial</div>
             </div>
             <div class="travel-media-item">
-              <img src="assets/images/foto12.jpeg" alt="CDMX museo">
+              <img src="assets/images/foto12.jpeg" alt="Estefanía sonriendo en CDMX" loading="lazy">
               <div class="travel-caption">Brillas más que las estrellas ❤</div>
             </div>
           </div>
-          <button class="travel-prev" onclick="moveTravelMedia(-1, 'cdmx')"><i class="fas fa-chevron-left"></i></button>
-          <button class="travel-next" onclick="moveTravelMedia(1, 'cdmx')"><i class="fas fa-chevron-right"></i></button>
-          <div class="travel-dots"></div>
+          <button class="travel-prev" onclick="moveTravelMedia(-1, 'cdmx')" aria-label="Imagen anterior">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="travel-next" onclick="moveTravelMedia(1, 'cdmx')" aria-label="Imagen siguiente">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <div class="travel-dots" role="tablist"></div>
         </div>
       </div>
     </section>
 
-    <!-- Sección de Galería con Ramo de Flores -->
     <section class="gallery animate__animated animate__fadeInUp">
-      <h2><span class="decorative">🌷</span> Cosas que me recuerdan a ti</h2>
-      <div class="flower-bouquet">
-        <!-- Flor central (foto principal) -->
-        <div class="flower-main" onclick="showPhotoModal('assets/images/foto8.jpg', 'El mar, porque cada que veo tus ojos me transportan a él')">
-          <img src="assets/images/foto8.jpg" alt="Flor principal">
-          <div class="petals"></div>
-        </div>
-        
-        <!-- Flores secundarias (fotos alrededor) -->
-        <div class="flower-secondary" style="--angle: 0deg; --distance: 140px">
-          <img src="assets/images/foto10.jpg" alt="Atardecer" onclick="showPhotoModal('assets/images/foto10.jpg', 'Los atardeceres, porque son hermosos como tú')">
-          <div class="petals small"></div>
-        </div>
-        
-        <div class="flower-secondary" style="--angle: 72deg; --distance: 140px">
-          <img src="assets/images/foto9.jpg" alt="Flores" onclick="showPhotoModal('assets/images/foto9.jpg', 'Las flores, por su belleza y delicadeza')">
-          <div class="petals small"></div>
-        </div>
-        
-        <div class="flower-secondary" style="--angle: 144deg; --distance: 140px">
-          <video onclick="showVideoModal('assets/video/video1.mp4', 'La primera vez que salimos')">
-            <source src="assets/video/video1.mp4" type="video/mp4">
-          </video>
-          <div class="petals small"></div>
-        </div>
-        
-        <div class="flower-secondary" style="--angle: 216deg; --distance: 140px">
-          <img src="assets/images/foto3.jpg" alt="Viaje" onclick="showPhotoModal('assets/images/foto3.jpg', 'Nuestros momentos especiales')">
-          <div class="petals small"></div>
-        </div>
-        
-        <div class="flower-secondary" style="--angle: 288deg; --distance: 140px">
-          <img src="assets/images/foto4.jpg" alt="CDMX" onclick="showPhotoModal('assets/images/foto4.jpg', 'Aventuras en la ciudad')">
-          <div class="petals small"></div>
-        </div>
-      </div>
+      <h2><span class="decorative" aria-hidden="true">🌷</span> Cosas que me recuerdan a ti</h2>
+    <div class="flower-bouquet">
+  <!-- Flor central -->
+  <div class="flower-main" onclick="showPhotoModal('assets/images/foto8.jpg', 'Eres el centro de mi universo')" role="button" tabindex="0" aria-label="Foto principal - Haz clic para ampliar">
+    <img src="assets/images/foto8.jpg" alt="Estefanía - El centro de mi universo" loading="lazy">
+    <div class="petals" aria-hidden="true"></div>
+  </div>
+  
+  <!-- Flores secundarias - ahora con tamaños responsivos en CSS -->
+  <div class="flower-secondary" style="--angle: 0deg; --distance: 140px">
+    <img src="assets/images/foto1.jpg" alt="Nuestro primer viaje juntos" onclick="showPhotoModal('assets/images/foto1.jpg', 'Nuestro primer viaje juntos')" loading="lazy">
+    <div class="petals small" aria-hidden="true"></div>
+  </div>
+  
+  <div class="flower-secondary" style="--angle: 72deg; --distance: 140px">
+    <img src="assets/images/foto2.jpg" alt="Momentos inolvidables" onclick="showPhotoModal('assets/images/foto2.jpg', 'Momentos inolvidables')" loading="lazy">
+    <div class="petals small" aria-hidden="true"></div>
+  </div>
+  
+  <div class="flower-secondary" style="--angle: 144deg; --distance: 140px">
+    <img src="assets/images/foto3.jpg" alt="Risas compartidas" onclick="showPhotoModal('assets/images/foto3.jpg', 'Risas compartidas')" loading="lazy">
+    <div class="petals small" aria-hidden="true"></div>
+  </div>
+  
+  <div class="flower-secondary" style="--angle: 216deg; --distance: 140px">
+    <img src="assets/images/foto4.jpg" alt="Aventuras juntos" onclick="showPhotoModal('assets/images/foto4.jpg', 'Aventuras juntos')" loading="lazy">
+    <div class="petals small" aria-hidden="true"></div>
+  </div>
+  
+  <div class="flower-secondary" style="--angle: 288deg; --distance: 140px">
+    <img src="assets/images/foto5.jpg" alt="Tu sonrisa ilumina mi día" onclick="showPhotoModal('assets/images/foto5.jpg', 'Tu sonrisa ilumina mi día')" loading="lazy">
+    <div class="petals small" aria-hidden="true"></div>
+  </div>
+  
+  <!-- Tallo y hojas -->
+  <div class="stem" aria-hidden="true"></div>
+  <div class="leaves" aria-hidden="true">
+    <div class="leaf left"></div>
+    <div class="leaf right"></div>
+  </div>
+</div>
       
-      <!-- Tallo y hojas -->
-      <div class="stem"></div>
-      <div class="leaves">
-        <div class="leaf left"></div>
-        <div class="leaf right"></div>
-      </div>
-      
-      <!-- Modal para mostrar fotos/videos en grande -->
-      <div id="photoModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
+      <!-- Modal -->
+      <div id="photoModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalCaption">
+        <button class="close" onclick="closeModal()" aria-label="Cerrar modal">&times;</button>
         <div class="modal-content">
           <img id="modalImage" src="" alt="">
           <video id="modalVideo" controls style="display:none">
@@ -173,15 +181,15 @@
     </section>
 
     <section class="message-box animate__animated animate__fadeInUp">
-      <h2><span class="decorative">💌</span> Un mensaje especial</h2>
+      <h2><span class="decorative" aria-hidden="true">💌</span> Un mensaje especial</h2>
       <div class="letter">
         <div class="letter-content">
           <p id="mensaje">Haz clic en el sobre para leer mi mensaje...</p>
         </div>
-        <div class="envelope" onclick="mostrarMensaje()">
-          <div class="envelope-flap"></div>
-          <div class="envelope-body"></div>
-        </div>
+        <button class="envelope" onclick="mostrarMensaje()" aria-label="Abrir mensaje especial">
+          <div class="envelope-flap" aria-hidden="true"></div>
+          <div class="envelope-body" aria-hidden="true"></div>
+        </button>
       </div>
       <div class="love-quotes">
         <div class="quote active">"Eres mi hoy y todos mis mañanas"</div>
@@ -190,20 +198,20 @@
       </div>
     </section>
 
-    <section class="playlist animate__animated animate__fadeInUp">
-      <h2><span class="decorative">🎵</span> Canciones que me recuerdan a ti</h2>
+    <!-- <section class="playlist animate__animated animate__fadeInUp">
+      <h2><span class="decorative" aria-hidden="true">🎵</span> Canciones que me recuerdan a ti</h2>
       <div class="songs">
-        <div class="song" onclick="playSong('CHIHIRO')">
+        <div class="song" onclick="playSong('CHIHIRO')" role="button" tabindex="0">
           <span class="play-icon">▶️</span>
           <span class="song-title">Billie Eilish - CHIHIRO</span>
           <span class="song-duration">3:45</span>
         </div>
-        <div class="song" onclick="playSong('Bacalar')">
+        <div class="song" onclick="playSong('Bacalar')" role="button" tabindex="0">
           <span class="play-icon">▶️</span>
           <span class="song-title">Siddhartha - Bacalar</span>
           <span class="song-duration">4:12</span>
         </div>
-        <div class="song" onclick="playSong('Perfect')">
+        <div class="song" onclick="playSong('Perfect')" role="button" tabindex="0">
           <span class="play-icon">▶️</span>
           <span class="song-title">Ed Sheeran - Perfect</span>
           <span class="song-duration">4:23</span>
@@ -211,9 +219,15 @@
       </div>
       <div class="music-player hidden">
         <div class="player-controls">
-          <button class="control-btn" onclick="skipBackward()"><i class="fas fa-step-backward"></i></button>
-          <button class="control-btn play-btn" onclick="togglePlay()"><i class="fas fa-play"></i></button>
-          <button class="control-btn" onclick="skipForward()"><i class="fas fa-step-forward"></i></button>
+          <button class="control-btn" onclick="skipBackward()" aria-label="Retroceder 10 segundos">
+            <i class="fas fa-step-backward"></i>
+          </button>
+          <button class="control-btn play-btn" onclick="togglePlay()" aria-label="Reproducir/Pausar">
+            <i class="fas fa-play"></i>
+          </button>
+          <button class="control-btn" onclick="skipForward()" aria-label="Avanzar 10 segundos">
+            <i class="fas fa-step-forward"></i>
+          </button>
         </div>
         <div class="progress-container">
           <div class="progress-bar"></div>
@@ -221,25 +235,23 @@
         <div class="song-info"></div>
       </div>
     </section>
-  </main>
+  </main> -->
 
   <footer class="animate__animated animate__fadeInUp">
     <div class="final-message">
       <p>Gracias por ser tú, Estefanía</p>
       <p class="signature">Con todo mi cariño,<br>Dennis</p>
     </div>
-    <div class="heart-beat">💖</div>
-    <button class="floating-btn" onclick="triggerConfetti()">
+    <div class="heart-beat" aria-hidden="true">💖</div>
+    <button class="floating-btn" onclick="triggerConfetti()" aria-label="Lanzar confeti">
       <i class="fas fa-heart"></i>
     </button>
   </footer>
 
-  <!-- Efecto de confeti -->
-  <canvas id="confetti-canvas"></canvas>
-
   <!-- Audio para la música -->
   <audio id="background-music" loop>
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    Tu navegador no soporta el elemento de audio.
   </audio>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>

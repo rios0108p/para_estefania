@@ -201,22 +201,18 @@
    <section class="playlist animate__animated animate__fadeInUp">
   <h2><span class="decorative" aria-hidden="true">🎵</span> Canciones que me recuerdan a ti</h2>
   <div class="songs">
-    <div class="song" onclick="playSong('CHIHIRO')" role="button" tabindex="0">
+    <div class="song" onclick="playSong('music1')" role="button" tabindex="0">
       <span class="play-icon">▶️</span>
-      <span class="song-title">Billie Eilish - CHIHIRO</span>
-      <span class="song-duration">3:45</span>
+      <span class="song-title">Canción 1</span>
+      <span class="song-duration">--:--</span>
     </div>
-    <div class="song" onclick="playSong('Bacalar')" role="button" tabindex="0">
+    <div class="song" onclick="playSong('music2')" role="button" tabindex="0">
       <span class="play-icon">▶️</span>
-      <span class="song-title">Siddhartha - Bacalar</span>
-      <span class="song-duration">4:12</span>
+      <span class="song-title">Canción 2</span>
+      <span class="song-duration">--:--</span>
     </div>
   </div>
   
-  <!-- Reproductor de YouTube embebido (oculto inicialmente) -->
-  <div id="youtube-player" class="hidden"></div>
-  
-  <!-- Nuestro reproductor personalizado (para mostrar controles) -->
   <div class="music-player hidden">
     <div class="player-controls">
       <button class="control-btn" onclick="skipBackward()" aria-label="Retroceder 10 segundos">
@@ -234,6 +230,9 @@
     </div>
     <div class="song-info"></div>
   </div>
+  
+  <!-- Elemento de audio oculto -->
+  <audio id="audio-player"></audio>
 </section>
   </main>
 

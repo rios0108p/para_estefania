@@ -460,137 +460,123 @@ window.addEventListener('load', handleResize);
 window.addEventListener('resize', handleResize);
 
 
-// Carga la API de YouTube
-function loadYouTubeAPI() {
-  const tag = document.createElement('script');
-  tag.src = "https://www.youtube.com/iframe_api";
-  const firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-}
+// Lista de canciones con rutas a tus archivos
+const songs = {
+  'music1': {
+    url: 'assets/music/music1.mp3', // Ajusta la extensión (.mp3 o .mp4)
+    title: 'Nombre Canción 1',      // Cambia por el nombre real
+    duration: '3:45'                // Cambia por la duración real
+  },
+  'music2': {
+    url: 'assets/music/music2.mp3', // Ajusta la extensión (.mp3 o .mp4)
+    title: 'Nombre Canción 2',      // Cambia por el nombre real
+    duration: '4:12'                // Cambia por la duración real
+  }
+};
 
 // Variables globales
-let youtubePlayer;
 let currentSong = null;
 let progressInterval;
 
-// Lista de canciones con IDs de YouTube
-const songs = {
-  'CHIHIRO': {
-    id: 'BY_XwvKogC8',
-    title: 'Billie Eilish - CHIHIRO',
-    duration: '3:45'
-  },
-  'Bacalar': {
-    id: 'Rux-Q_nPrp0',
-    title: 'Siddhartha - Bacalar',
-    duration: '4:12'
-  }
-};
-
-// Función cuando la API de YouTube está lista
-function onYouTubeIframeAPIReady() {
-  youtubePlayer = new YT.Player('youtube-player', {
-    height: '0',
-    width: '0',
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
-  });
-}
-
-function onPlayerReady(event) {
-  console.log('Reproductor de YouTube listo');
-}
-
-function onPlayerStateChange(event) {
+// Inicializar el reproductor
+function initMusicPlayer() {
+  const audioPlayer = document.getElementById('audio-player');
+  const progressBar = document.querySelector('.progress-bar');
   const player = document.querySelector('.music-player');
   const playBtn = document.querySelector('.play-btn');
+  const songInfo = document.querySelector('.song-info');
   
-  // Actualizar controles según el estado
-  if (event.data === YT.PlayerState.PLAYING) {
+  // Función para reproducir una canción
+  window.playSong = function(songName) {
+    if (!songs[songName]) return;
+    
+    currentSong = songName;
     player.classList.remove('hidden');
+    audioPlayer.src = songs[songName].url;
+    songInfo.textContent = songs[songName].title;
+    
+    // Intenta reproducir (con manejo de error para móviles)
+    const playPromise = audioPlayer.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        console.log("Autoplay prevenido: ", error);
+        // Muestra instrucción para el usuario
+        songInfo.textContent = "Toca el botón de play para reproducir";
+      });
+    }
+    
     playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-    startProgressTimer();
-  } else if (event.data === YT.PlayerState.PAUSED) {
-    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+    
+    // Actualizar iconos de todas las canciones
+    document.querySelectorAll('.song').forEach(songEl => {
+      const icon = songEl.querySelector('.play-icon');
+      icon.textContent = songEl.getAttribute('onclick').includes(songName) ? '⏸️' : '▶️';
+    });
+  };
+  
+  // Alternar entre play/pause
+  window.togglePlay = function() {
+    if (audioPlayer.paused) {
+      audioPlayer.play();
+      document.querySelector('.play-btn').innerHTML = '<i class="fas fa-pause"></i>';
+      startProgressTimer();
+    } else {
+      audioPlayer.pause();
+      document.querySelector('.play-btn').innerHTML = '<i class="fas fa-play"></i>';
+      clearInterval(progressInterval);
+    }
+  };
+  
+  // Retroceder 10 segundos
+  window.skipBackward = function() {
+    audioPlayer.currentTime = Math.max(audioPlayer.currentTime - 10, 0);
+  };
+  
+  // Adelantar 10 segundos
+  window.skipForward = function() {
+    audioPlayer.currentTime = Math.min(audioPlayer.currentTime + 10, audioPlayer.duration);
+  };
+  
+  // Actualizar barra de progreso
+  function updateProgressBar() {
+    const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    progressBar.style.width = progress + '%';
+  }
+  
+  function startProgressTimer() {
     clearInterval(progressInterval);
-  } else if (event.data === YT.PlayerState.ENDED) {
-    playBtn.innerHTML = '<i class="fas fa-play"></i>';
-    clearInterval(progressInterval);
-    document.querySelector('.progress-bar').style.width = '0%';
+    progressInterval = setInterval(updateProgressBar, 1000);
+  }
+  
+  // Click en la barra de progreso para saltar
+  document.querySelector('.progress-container').addEventListener('click', function(e) {
+    if (!currentSong) return;
+    
+    const rect = this.getBoundingClientRect();
+    const pos = (e.clientX - rect.left) / rect.width;
+    audioPlayer.currentTime = pos * audioPlayer.duration;
+  });
+  
+  // Cuando termina la canción
+  audioPlayer.addEventListener('ended', function() {
+    document.querySelector('.play-btn').innerHTML = '<i class="fas fa-play"></i>';
     document.querySelectorAll('.song .play-icon').forEach(icon => {
       icon.textContent = '▶️';
     });
-  }
-}
-
-function startProgressTimer() {
-  clearInterval(progressInterval);
-  progressInterval = setInterval(updateProgressBar, 1000);
-}
-
-function updateProgressBar() {
-  if (youtubePlayer && youtubePlayer.getCurrentTime) {
-    const currentTime = youtubePlayer.getCurrentTime();
-    const duration = youtubePlayer.getDuration();
-    const progress = (currentTime / duration) * 100;
-    document.querySelector('.progress-bar').style.width = progress + '%';
-  }
-}
-
-// Control de canciones
-window.playSong = function(songName) {
-  if (!songs[songName]) return;
-  
-  currentSong = songName;
-  const songInfo = document.querySelector('.song-info');
-  songInfo.textContent = songs[songName].title;
-  
-  // Cargar y reproducir la canción de YouTube
-  youtubePlayer.loadVideoById(songs[songName].id);
-  
-  // Actualizar iconos de reproducción
-  document.querySelectorAll('.song').forEach(songEl => {
-    const icon = songEl.querySelector('.play-icon');
-    if (songEl.getAttribute('onclick').includes(songName)) {
-      icon.textContent = '⏸️';
-    } else {
-      icon.textContent = '▶️';
-    }
   });
-};
-
-window.togglePlay = function() {
-  if (youtubePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
-    youtubePlayer.pauseVideo();
-  } else {
-    youtubePlayer.playVideo();
-  }
-};
-
-window.skipBackward = function() {
-  const currentTime = youtubePlayer.getCurrentTime();
-  youtubePlayer.seekTo(Math.max(currentTime - 10, 0));
-};
-
-window.skipForward = function() {
-  const currentTime = youtubePlayer.getCurrentTime();
-  youtubePlayer.seekTo(currentTime + 10);
-};
-
-// Click en la barra de progreso
-document.querySelector('.progress-container').addEventListener('click', function(e) {
-  if (!currentSong) return;
   
-  const rect = this.getBoundingClientRect();
-  const pos = (e.clientX - rect.left) / rect.width;
-  const duration = youtubePlayer.getDuration();
-  youtubePlayer.seekTo(duration * pos);
-});
+  // Habilitar audio en móviles (requiere interacción del usuario)
+  document.addEventListener('click', function enableAudio() {
+    // Solo se ejecuta una vez
+    document.removeEventListener('click', enableAudio);
+    
+    // Reproduce y pausa inmediatamente para desbloquear audio
+    audioPlayer.play().then(() => {
+      audioPlayer.pause();
+    }).catch(e => console.log("Error al habilitar audio:", e));
+  }, { once: true });
+}
 
-// Inicialización
-document.addEventListener('DOMContentLoaded', function() {
-  loadYouTubeAPI();
-  // ... (el resto de tu código de inicialización)
-});
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', initMusicPlayer);

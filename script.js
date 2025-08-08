@@ -464,13 +464,13 @@ window.addEventListener('resize', handleResize);
 const songs = {
   'music1': {
     url: 'assets/music/music1.mp3', // Ajusta la extensión (.mp3 o .mp4)
-    title: 'Nombre Canción 1',      // Cambia por el nombre real
-    duration: '3:45'                // Cambia por la duración real
+    title: 'chihiro',      // Cambia por el nombre real
+    duration: '5:04'                // Cambia por la duración real
   },
   'music2': {
     url: 'assets/music/music2.mp3', // Ajusta la extensión (.mp3 o .mp4)
-    title: 'Nombre Canción 2',      // Cambia por el nombre real
-    duration: '4:12'                // Cambia por la duración real
+    title: 'Bacalar',      // Cambia por el nombre real
+    duration: '4:10'                // Cambia por la duración real
   }
 };
 
